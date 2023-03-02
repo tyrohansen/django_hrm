@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-oi18v1#=aa6r-193j^#kwx4qus1jm05p&t0vp!8b^#%f9go1wp
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = 'accounts.User'
 
 # Application definition
 
@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'django_filters',
+    'corsheaders',
+    'accounts',
 ]
 
 MIDDLEWARE = [
