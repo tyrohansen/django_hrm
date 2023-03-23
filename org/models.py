@@ -7,3 +7,6 @@ class Department(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user_departments', on_delete=models.PROTECT)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.name

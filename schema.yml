@@ -8,6 +8,19 @@ paths:
   /api/accounts/profile/:
     get:
       operationId: accounts_profile_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
       tags:
       - accounts
       security:
@@ -18,9 +31,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Profile'
+                $ref: '#/components/schemas/PaginatedProfileList'
           description: ''
     post:
       operationId: accounts_profile_create
@@ -155,6 +166,19 @@ paths:
   /api/accounts/user/:
     get:
       operationId: accounts_user_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
       tags:
       - accounts
       security:
@@ -165,9 +189,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/PaginatedUserList'
           description: ''
     post:
       operationId: accounts_user_create
@@ -449,17 +471,37 @@ paths:
       - basicAuth: []
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+          description: ''
     post:
       operationId: org_departments_create
       tags:
       - org
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Department'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Department'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Department'
+        required: true
       security:
       - cookieAuth: []
       - basicAuth: []
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+          description: ''
   /api/org/departments/{id}/:
     get:
       operationId: org_departments_retrieve_2
@@ -476,7 +518,11 @@ paths:
       - basicAuth: []
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+          description: ''
     put:
       operationId: org_departments_update
       parameters:
@@ -487,12 +533,28 @@ paths:
         required: true
       tags:
       - org
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Department'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Department'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Department'
+        required: true
       security:
       - cookieAuth: []
       - basicAuth: []
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+          description: ''
     delete:
       operationId: org_departments_destroy
       parameters:
@@ -509,18 +571,230 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/people/employees/:
+    get:
+      operationId: people_employees_retrieve
+      tags:
+      - people
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+          description: ''
+    post:
+      operationId: people_employees_create
+      tags:
+      - people
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Employee'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Employee'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+          description: ''
+  /api/people/employees/{id}/:
+    get:
+      operationId: people_employees_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - people
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+          description: ''
+    put:
+      operationId: people_employees_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - people
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Employee'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Employee'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+          description: ''
+    delete:
+      operationId: people_employees_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - people
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
 components:
   schemas:
-    GenderEnum:
+    Department:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+        shortname:
+          type: string
+          maxLength: 8
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        author:
+          type: integer
+          readOnly: true
+      required:
+      - author
+      - created
+      - id
+      - name
+      - shortname
+      - updated
+    Employee:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 200
+        last_name:
+          type: string
+          maxLength: 200
+        gender:
+          $ref: '#/components/schemas/EmployeeGenderEnum'
+        job_title:
+          type: string
+          maxLength: 200
+        section:
+          type: string
+          maxLength: 200
+        id_no:
+          type: string
+          maxLength: 32
+        nin:
+          type: string
+          maxLength: 32
+        date_joined:
+          type: string
+          format: date
+        marital_status:
+          $ref: '#/components/schemas/MaritalStatusEnum'
+        birth_place:
+          type: string
+          maxLength: 200
+        residence:
+          type: string
+          maxLength: 200
+        birth_date:
+          type: string
+          format: date
+        kin_name:
+          type: string
+          maxLength: 200
+        kin_contact:
+          type: string
+          maxLength: 200
+        emergency_contact:
+          type: string
+          maxLength: 200
+        comment:
+          type: string
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        department:
+          type: integer
+        author:
+          type: integer
+          readOnly: true
+      required:
+      - author
+      - created
+      - department
+      - first_name
+      - gender
+      - id
+      - last_name
+      - marital_status
+      - updated
+    EmployeeGenderEnum:
       enum:
       - Male
       - Female
-      - Other
       type: string
       description: |-
         * `Male` - Male
         * `Female` - Female
-        * `Other` - Other
     Login:
       type: object
       properties:
@@ -531,6 +805,56 @@ components:
       required:
       - password
       - username
+    MaritalStatusEnum:
+      enum:
+      - Single
+      - Married
+      - Divorced
+      type: string
+      description: |-
+        * `Single` - Single
+        * `Married` - Married
+        * `Divorced` - Divorced
+    PaginatedProfileList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Profile'
+    PaginatedUserList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
     PatchedProfile:
       type: object
       properties:
@@ -542,7 +866,7 @@ components:
           format: date
           nullable: true
         gender:
-          $ref: '#/components/schemas/GenderEnum'
+          $ref: '#/components/schemas/ProfileGenderEnum'
         country:
           type: string
           nullable: true
@@ -613,7 +937,7 @@ components:
           format: date
           nullable: true
         gender:
-          $ref: '#/components/schemas/GenderEnum'
+          $ref: '#/components/schemas/ProfileGenderEnum'
         country:
           type: string
           nullable: true
@@ -647,6 +971,16 @@ components:
       - id
       - updated
       - user
+    ProfileGenderEnum:
+      enum:
+      - Male
+      - Female
+      - Other
+      type: string
+      description: |-
+        * `Male` - Male
+        * `Female` - Female
+        * `Other` - Other
     User:
       type: object
       properties:

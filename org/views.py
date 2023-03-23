@@ -5,10 +5,13 @@ from rest_framework.permissions import IsAuthenticated
 from org.models import Department
 from org.serializers import DepartmentSerializer
 from org.services import create_department, get_department_by_id
+from rest_framework.generics import GenericAPIView
 
 
-class DepartmentView(APIView):
+class DepartmentView(GenericAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = DepartmentSerializer
+    queryset = Department.objects.all()
 
     def get(self, request, format=None):
         departments = Department.objects.all()
@@ -29,6 +32,7 @@ class DepartmentView(APIView):
 
 class DepartmentDetailView(APIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = DepartmentSerializer
 
     def get(self, request, pk, format=None):
         department = get_department_by_id(pk)
