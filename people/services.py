@@ -62,4 +62,19 @@ def create_document(
         notes:str,
         author:User
     ) -> Document:
-    pass
+    document = Document.objects.create(
+        title=title,
+        employee=employee,
+        filename=filename,
+        category= category,
+        notes= notes,
+        author= author
+    )
+    return document
+
+
+def get_document_by_id(pk:int) -> Document:
+    try:
+        return Document.objects.get(pk=pk)
+    except Employee.DoesNotExist:
+        return None

@@ -31,6 +31,14 @@ class Employee(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
+    @property
+    def fullname(self):
+        return f"{self.first_name} {self.last_name}"
+
+    def __str__(self) -> str:
+        return f"#{self.id}.{self.first_name} {self.last_name}"
+    
+
 
 
 class Document(models.Model):
