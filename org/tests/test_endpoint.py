@@ -55,7 +55,6 @@ class TestDepartment:
         client = api_client()
         client.force_authenticate(user=user)
         response = client.put(url, department_updated, format='json')
-        print(response.content)
         assert response.status_code == 200
         assert response.json()['name'] == department_updated['name']
 
