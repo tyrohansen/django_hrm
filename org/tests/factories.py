@@ -8,7 +8,7 @@ faker = Factory.create()
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
-    username = faker.email()
+    username = factory.Sequence(lambda n: 'User%d' % n)
     email = faker.email()
     password = faker.password()
 
